@@ -13,7 +13,7 @@ import com.example.demo.services.ContactService;
 
 @RestController
 @RequestMapping("/api/contacts")
-@CrossOrigin(origins = "http://localhost:4200")
+//@CrossOrigin(origins = "http://localhost:4200")
 public class ContactController {
 
 	@Autowired

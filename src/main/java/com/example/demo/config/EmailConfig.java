@@ -34,8 +34,6 @@ public class EmailConfig {
 		sender.setJavaMailProperties(getConfigPropertes());
 		sender.setUsername(email);
 		sender.setPassword(password);
-		System.out.println(email);
-		System.out.println("pass"+password+"----");
 		return sender;
 	}
 }
