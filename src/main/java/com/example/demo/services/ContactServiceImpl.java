@@ -41,6 +41,6 @@ public class ContactServiceImpl implements ContactService {
 			LOGGER.error(e);
 		}
 		
-		
+		LOGGER.info("email sent");
 	}
 }
