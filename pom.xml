@@ -80,5 +80,20 @@
 			</releases>
 		</pluginRepository>
 	</pluginRepositories>
+	
+	<profiles>
+	    <profile>
+	        <id>local</id>
+	        <properties>
+	            <profileActive>local</profileActive>
+	        </properties>
+	    </profile>
+	    <profile>
+	        <id>production</id>
+	        <properties>
+	            <profileActive>production</profileActive>
+	        </properties>
+	    </profile>
+	</profiles>
 
 </project>
