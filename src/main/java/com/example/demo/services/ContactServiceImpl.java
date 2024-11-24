@@ -8,24 +8,18 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.models.entity.Contact;
-import com.example.demo.models.repository.ContactRepository;
 
 @Service
 public class ContactServiceImpl implements ContactService {
 
 	public static final Logger LOGGER = LogManager.getLogger(ContactServiceImpl.class);
 	
-	@Autowired
-    private ContactRepository contactRepository;
-
     @Autowired
     private JavaMailSender mailSender;
 
 	@Override
 	public void saveContact(Contact contact) {
-		contactRepository.save(contact);
         sendEmail(contact);
-		
 	}
 
 	@Override
@@ -33,8 +27,33 @@ public class ContactServiceImpl implements ContactService {
 		try {
 			SimpleMailMessage message = new SimpleMailMessage();
 	        message.setTo(contact.getEmail());
-	        message.setSubject("Mensaje de Prueba");
-	        message.setText("Name: " + contact.getFirstName() + " " + contact.getLastName() + "\nEmail: " + contact.getEmail() + "\nPhone: " + contact.getPhoneNumber());
+	        message.setSubject("Presupuesto Estimado");
+	        
+	        String total = contact.getMessages().get("total");
+	        String metros = contact.getMessages().get("metros");
+	        String wc = contact.getMessages().get("wc");
+	        String habitacion = contact.getMessages().get("habitacion");
+	        String cocina = contact.getMessages().get("cocina");
+	        String salon = contact.getMessages().get("salon");
+	        String vivienda = contact.getMessages().get("vivienda");
+	        String calidad = contact.getMessages().get("calidad");
+	        String reforma = contact.getMessages().get("reforma");
+	        String mensajeCorreo = """
+	        		Nombre solicitante: %s 
+	        		Correo Electronico:  %s 
+	        		Teléfono:  %s 
+	        		Presupuesto Estimado es de %s
+	        		Por haber seleccionado
+	        			- m2 de la vivienda: %s
+	        			- N° de baños: %s
+	        			- N° de habitaciones: %s
+	        			- Cocina: %s
+	        			- Salón: %s
+	        			- Calidad: %s
+	        			- Tipo de vivienda: %s
+	        			- Tipo de Reforma: %s
+	        		""".formatted(contact.getFirstName()+" "+ contact.getLastName(), contact.getEmail(), contact.getPhoneNumber() , total, metros, wc, habitacion, cocina, salon, vivienda, calidad,reforma);
+	        message.setText(mensajeCorreo);
 	        mailSender.send(message);	
 		}catch(Exception e) {
 			e.printStackTrace();

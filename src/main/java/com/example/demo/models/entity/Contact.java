@@ -1,22 +1,27 @@
 package com.example.demo.models.entity;
 
+import java.util.Map;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
-@Entity
 public class Contact {
 
-	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String firstName;
     private String lastName;
     private String email;
     private String phoneNumber;
+    private Map<String, String> messages;
     
+	public Map<String, String> getMessages() {
+		return messages;
+	}
+	public void setMessages(Map<String, String> messages) {
+		this.messages = messages;
+	}
 	public Long getId() {
 		return id;
 	}
@@ -46,6 +51,11 @@ public class Contact {
 	}
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
+	}
+	@Override
+	public String toString() {
+		return "Contact [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email
+				+ ", phoneNumber=" + phoneNumber + ", messages=" + messages + "]";
 	}
     
     
