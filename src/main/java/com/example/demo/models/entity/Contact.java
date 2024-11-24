@@ -2,11 +2,6 @@ package com.example.demo.models.entity;
 
 import java.util.Map;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-
 public class Contact {
 
     private Long id;
