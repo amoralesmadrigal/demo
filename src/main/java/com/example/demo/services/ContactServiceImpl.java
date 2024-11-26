@@ -42,7 +42,7 @@ public class ContactServiceImpl implements ContactService {
 	        		Nombre solicitante: %s 
 	        		Correo Electronico:  %s 
 	        		Teléfono:  %s 
-	        		Presupuesto Estimado es de %s
+	        		Presupuesto Estimado es de %s euros
 	        		Por haber seleccionado
 	        			- m2 de la vivienda: %s
 	        			- N° de baños: %s
