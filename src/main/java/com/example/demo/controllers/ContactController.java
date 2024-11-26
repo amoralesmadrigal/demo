@@ -1,6 +1,8 @@
 package com.example.demo.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -18,8 +20,8 @@ public class ContactController {
     private ContactService contactService;
 	
 	@GetMapping
-	public void helloWorld() {
-		System.out.println("Hello World");
+	public ResponseEntity<?> helloWorld() {
+		return ResponseEntity.status(HttpStatus.OK).build();
 	}
 
     @PostMapping("/create")
