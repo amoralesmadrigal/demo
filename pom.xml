@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>3.1.12-SNAPSHOT</version>
-		<relativePath/> <!-- lookup parent from repository -->
+		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
 	<artifactId>demo</artifactId>
@@ -15,9 +16,11 @@
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>17</java.version>
+       <itext.pdfhtml.version>6.0.0</itext.pdfhtml.version>
+       <itext.version>9.0.0</itext.version>
 	</properties>
 	<dependencies>
-	<!--
+		<!--
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -30,6 +33,53 @@
 		</dependency>
 
 		-->
+  <dependency>
+    <groupId>com.itextpdf</groupId>
+    <artifactId>html2pdf</artifactId>
+    <version>${itext.pdfhtml.version}</version>
+  </dependency>
+  
+  <!-- optional dependency if you intend on creating PDF/UA documents -->
+  <dependency>
+    <groupId>com.itextpdf</groupId>
+    <artifactId>pdfua</artifactId>
+    <version>${itext.version}</version>
+  </dependency>
+
+
+<!-- always needed -->
+    <dependency>
+        <groupId>com.itextpdf</groupId>
+        <artifactId>kernel</artifactId>
+        <version>${itext.version}</version>
+    </dependency>
+	<!-- always needed -->
+    <dependency>
+        <groupId>com.itextpdf</groupId>
+        <artifactId>io</artifactId>
+        <version>${itext.version}</version>
+    </dependency>
+	<!-- always needed -->
+    <dependency>
+        <groupId>com.itextpdf</groupId>
+        <artifactId>layout</artifactId>
+        <version>${itext.version}</version>
+    </dependency>
+   	<!-- always needed -->
+    <dependency>
+        <groupId>com.itextpdf</groupId>
+        <artifactId>bouncy-castle-adapter</artifactId>
+        <version>${itext.version}</version>
+    </dependency>
+	
+
+<dependency>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-text</artifactId>
+    <version>1.10.0</version>
+</dependency>
+
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -39,8 +89,8 @@
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 		<dependency>
-		    <groupId>org.springframework.boot</groupId>
-		    <artifactId>spring-boot-starter-mail</artifactId>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -88,20 +138,20 @@
 			</releases>
 		</pluginRepository>
 	</pluginRepositories>
-	
+
 	<profiles>
-	    <profile>
-	        <id>local</id>
-	        <properties>
-	            <profileActive>local</profileActive>
-	        </properties>
-	    </profile>
-	    <profile>
-	        <id>production</id>
-	        <properties>
-	            <profileActive>production</profileActive>
-	        </properties>
-	    </profile>
+		<profile>
+			<id>local</id>
+			<properties>
+				<profileActive>local</profileActive>
+			</properties>
+		</profile>
+		<profile>
+			<id>production</id>
+			<properties>
+				<profileActive>production</profileActive>
+			</properties>
+		</profile>
 	</profiles>
 
 </project>
