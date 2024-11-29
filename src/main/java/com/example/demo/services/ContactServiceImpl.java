@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.models.entity.Contact;
@@ -18,12 +19,12 @@ public class ContactServiceImpl implements ContactService {
     private JavaMailSender mailSender;
 
 	@Override
-	public void saveContact(Contact contact) {
-        sendEmail(contact);
+	public void sendEmail(Contact contact) {
+		senderEmail(contact);
 	}
 
-	@Override
-	public void sendEmail(Contact contact) {
+	@Async
+	private void senderEmail(Contact contact) {
 		try {
 			SimpleMailMessage message = new SimpleMailMessage();
 	        message.setTo(contact.getEmail());
@@ -54,7 +55,8 @@ public class ContactServiceImpl implements ContactService {
 	        			- Tipo de Reforma: %s
 	        		""".formatted(contact.getFirstName()+" "+ contact.getLastName(), contact.getEmail(), contact.getPhoneNumber() , total, metros, wc, habitacion, cocina, salon, vivienda, calidad,reforma);
 	        message.setText(mensajeCorreo);
-	        mailSender.send(message);	
+	        mailSender.send(message);
+	        message = null;
 		}catch(Exception e) {
 			e.printStackTrace();
 			LOGGER.error(e);

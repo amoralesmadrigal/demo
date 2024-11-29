@@ -25,7 +25,7 @@ public class ContactController {
 	}
 
     @PostMapping("/create")
-    public void createContact(@RequestBody Contact contact) {
-        contactService.saveContact(contact);
+    public void sendEmail(@RequestBody Contact contact) {
+        contactService.sendEmail(contact);
     }
 }
