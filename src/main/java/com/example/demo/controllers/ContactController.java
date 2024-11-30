@@ -24,7 +24,7 @@ public class ContactController {
 		return ResponseEntity.status(HttpStatus.OK).build();
 	}
 
-    @PostMapping("/create")
+    @PostMapping("/sendEmail")
     public void sendEmail(@RequestBody Contact contact) {
         contactService.sendEmail(contact);
     }

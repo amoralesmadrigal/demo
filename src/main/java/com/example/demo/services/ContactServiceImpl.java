@@ -1,5 +1,8 @@
 package com.example.demo.services;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import org.apache.commons.text.StringEscapeUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,8 +20,70 @@ import jakarta.mail.util.ByteArrayDataSource;
 
 @Service
 public class ContactServiceImpl implements ContactService {
-
 	public static final Logger LOGGER = LogManager.getLogger(ContactServiceImpl.class);
+
+	private static final String EMAIL_TEMPLATE = """
+			<!DOCTYPE html>
+			<html lang="es">
+			<head>
+			    <meta charset="UTF-8">
+			    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+			    <style>
+			        body {
+			            font-family: Arial, sans-serif;
+			            line-height: 1.6;
+			            color: #333;
+			        }
+			        h2 {
+			            color: #2c3e50;
+			        }
+			        ul {
+			            list-style-type: none;
+			            padding: 0;
+			        }
+			        li {
+			            background: #f8f9fa;
+			            margin: 5px 0;
+			            padding: 10px;
+			            border-radius: 5px;
+			            border: 1px solid #ddd;
+			        }
+			        strong {
+			            color: #2c3e50;
+			        }
+			        footer {
+			         	margin-top: auto;
+			         	background: #2c3e50;
+			         	color: white;
+			         	text-align: center;
+			         	padding: 10px 0;
+			     	}
+			    </style>
+			</head>
+			<body>
+			    <h2>Detalles de la Solicitud</h2>
+			    <p><strong>Nombre solicitante:</strong> %s</p>
+			    <p><strong>Correo Electr&oacute;nico:</strong> %s</p>
+			    <p><strong>Tel&eacute;fono:</strong> %s</p>
+			    <p><strong>Presupuesto Estimado:</strong> %s euros</p>
+			    <h2>Selecciones</h2>
+			    <ul>
+			        <li><strong>m&sup2; de la vivienda:</strong> %s</li>
+			        <li><strong>N&deg; de ba&ntilde;os:</strong> %s</li>
+			        <li><strong>N&deg; de habitaciones:</strong> %s</li>
+			        <li><strong>Cocina:</strong> %s</li>
+			        <li><strong>Sal&oacute;n:</strong> %s</li>
+			        <li><strong>C&aacute;lidad:</strong> %s</li>
+			        <li><strong>Tipo de vivienda:</strong> %s</li>
+			        <li><strong>Tipo de Reforma:</strong> %s</li>
+			    </ul>
+			</body>
+			 <footer>
+			     <p>&copy; MAR TODO EN UNA REFORMA S.L.</p>
+			     <p>%s</p>
+			 </footer>
+			</html>
+			""";
 	
     @Autowired
     private JavaMailSender mailSender;
@@ -33,7 +98,9 @@ public class ContactServiceImpl implements ContactService {
 		try {
 	        MimeMessage message = mailSender.createMimeMessage();
 	        MimeMessageHelper helper = new MimeMessageHelper(message, true);
-	       
+	        LocalDateTime ahora = LocalDateTime.now();
+	        DateTimeFormatter formato = DateTimeFormatter.ofPattern("dd 'de' MMMM 'de' yyyy, HH:mm");
+	        String fechaHora = ahora.format(formato);
 	        String total = contact.getMessages().get("total");
 	        String metros = contact.getMessages().get("metros");
 	        String wc = contact.getMessages().get("wc");
@@ -43,57 +110,7 @@ public class ContactServiceImpl implements ContactService {
 	        String vivienda = contact.getMessages().get("vivienda");
 	        String calidad = contact.getMessages().get("calidad");
 	        String reforma = contact.getMessages().get("reforma");
-	        String mensajeCorreoHtml = """
-	        		<!DOCTYPE html>
-	        		<html lang="es">
-	        		<head>
-	        		    <meta charset="UTF-8">
-	        		    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	        		    <style>
-	        		        body {
-	        		            font-family: Arial, sans-serif;
-	        		            line-height: 1.6;
-	        		            color: #333;
-	        		        }
-	        		        h2 {
-	        		            color: #2c3e50;
-	        		        }
-	        		        ul {
-	        		            list-style-type: none;
-	        		            padding: 0;
-	        		        }
-	        		        li {
-	        		            background: #f8f9fa;
-	        		            margin: 5px 0;
-	        		            padding: 10px;
-	        		            border-radius: 5px;
-	        		            border: 1px solid #ddd;
-	        		        }
-	        		        strong {
-	        		            color: #2c3e50;
-	        		        }
-	        		    </style>
-	        		</head>
-	        		<body>
-	        		    <h2>Detalles de la Solicitud</h2>
-	        		    <p><strong>Nombre solicitante:</strong> %s</p>
-	        		    <p><strong>Correo Electr&oacute;nico:</strong> %s</p>
-	        		    <p><strong>Tel&eacute;fono:</strong> %s</p>
-	        		    <p><strong>Presupuesto Estimado:</strong> %s euros</p>
-	        		    <h2>Selecciones</h2>
-	        		    <ul>
-	        		        <li><strong>m&sup2; de la vivienda:</strong> %s</li>
-	        		        <li><strong>N&deg; de ba&ntilde;os:</strong> %s</li>
-	        		        <li><strong>N&deg; de habitaciones:</strong> %s</li>
-	        		        <li><strong>Cocina:</strong> %s</li>
-	        		        <li><strong>Sal&oacute;n:</strong> %s</li>
-	        		        <li><strong>C&aacute;lidad:</strong> %s</li>
-	        		        <li><strong>Tipo de vivienda:</strong> %s</li>
-	        		        <li><strong>Tipo de Reforma:</strong> %s</li>
-	        		    </ul>
-	        		</body>
-	        		</html>
-	        		""".formatted(
+	        String mensajeCorreoHtml = EMAIL_TEMPLATE.formatted(
 	        		    StringEscapeUtils.escapeHtml4(contact.getFirstName()) + " " + StringEscapeUtils.escapeHtml4(contact.getLastName()),
 	        		    contact.getEmail(),
 	        		    contact.getPhoneNumber(),
@@ -105,7 +122,8 @@ public class ContactServiceImpl implements ContactService {
 	        		    StringEscapeUtils.escapeHtml4(salon),
 	        		    StringEscapeUtils.escapeHtml4(calidad),
 	        		    vivienda,
-	        		    reforma
+	        		    reforma,
+	        		    fechaHora
 	        		);
 	        helper.setText(mensajeCorreoHtml, true);
 	        helper.setTo(contact.getEmail());
