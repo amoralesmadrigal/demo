@@ -1,6 +1,7 @@
 package com.example.demo.config;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -31,7 +32,7 @@ public class SecurityConfig {
 	                    .sameOrigin() // Configura X-Frame-Options: SAMEORIGIN
 	                )
 	                .contentSecurityPolicy(csp -> csp
-	                    .policyDirectives("default-src 'self'") // Configura Content-Security-Policy
+	                    .policyDirectives("default-src 'self'; connect-src 'self'") // Configura Content-Security-Policy
 	                )
 	            );
 	        return http.build();
@@ -43,7 +44,7 @@ public class SecurityConfig {
     @Bean
    CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList(allowedOrigin)); // Dominios permitidos
+        configuration.setAllowedOrigins(Collections.singletonList(allowedOrigin)); // Dominios permitidos
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "OPTIONS")); // Métodos permitidos
         configuration.setAllowedHeaders(Arrays.asList("Content-Type", "Authorization")); // Encabezados permitidos
         configuration.setMaxAge(3600L); // Cache de preflight por 3600 segundos (1 hora)
