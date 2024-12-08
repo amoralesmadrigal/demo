@@ -18,7 +18,8 @@
 		<java.version>17</java.version>
        <itext.pdfhtml.version>6.0.0</itext.pdfhtml.version>
        <itext.version>9.0.0</itext.version>
-	</properties>
+       <bucket4j-core.version>6.2.0</bucket4j-core.version>
+    </properties>
 	<dependencies>
 		<!--
 		<dependency>
@@ -33,6 +34,14 @@
 		</dependency>
 
 		-->
+		
+		<!-- https://mvnrepository.com/artifact/com.github.vladimir-bukhtoyarov/bucket4j-core -->
+        <dependency>
+            <groupId>com.github.vladimir-bukhtoyarov</groupId>
+            <artifactId>bucket4j-core</artifactId>
+            <version>${bucket4j-core.version}</version>
+        </dependency>
+		
   <dependency>
     <groupId>com.itextpdf</groupId>
     <artifactId>html2pdf</artifactId>
