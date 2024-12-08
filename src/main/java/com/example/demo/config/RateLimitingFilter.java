@@ -2,6 +2,7 @@ package com.example.demo.config;
 
 import java.io.IOException;
 
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import io.github.bucket4j.Bucket;
@@ -14,6 +15,7 @@ import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletResponse;
 
 @Component
+@Order(1) 
 public class RateLimitingFilter implements Filter {
 
     private final Bucket bucket;
